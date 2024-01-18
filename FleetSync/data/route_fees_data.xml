@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <data noupdate="1">
+        <record id="destino_miamilote" model="rapidusa.destino">
+            <field name="nombre_destino">MIA-Lot</field>
+        </record>
+
+        <record id="destino_ftlauderdale" model="rapidusa.destino">
+            <field name="nombre_destino">Ft Lauderdale</field>
+        </record>
+
+        <record id="destino_branch" model="rapidusa.destino">
+            <field name="nombre_destino">The Branch</field>
+        </record>
+
+        <record id="destino_bocaraton" model="rapidusa.destino">
+            <field name="nombre_destino">Boca Raton</field>
+        </record>
+
+        <record id="destino_coralgables" model="rapidusa.destino">
+            <field name="nombre_destino">Coral Gables</field>
+        </record>
+
+        <record id="destino_westpalmbeach" model="rapidusa.destino">
+            <field name="nombre_destino">West Palm Beach</field>
+        </record>
+
+
+        <record id="destino_downtown" model="rapidusa.destino">
+            <field name="nombre_destino">Downtown</field>
+        </record>
+
+        <record id="destino_southbeach5ta" model="rapidusa.destino">
+            <field name="nombre_destino">South Beach 5ta Ave</field>
+        </record>
+
+        <record id="destino_southbeachlinconl" model="rapidusa.destino">
+            <field name="nombre_destino">South Beach Linconl</field>
+        </record>
+
+         <record id="destino_southbeachcollins" model="rapidusa.destino">
+            <field name="nombre_destino">South Beach Collins</field>
+        </record>
+
+         <record id="destino_aventura" model="rapidusa.destino">
+            <field name="nombre_destino">Aventura</field>
+        </record>
+
+        <record id="destino_ftmyers" model="rapidusa.destino">
+            <field name="nombre_destino">Ft Myers</field>
+        </record>
+
+        <record id="destino_orlando" model="rapidusa.destino">
+            <field name="nombre_destino"> Orlando</field>
+        </record>
+
+        <record id="destino_pompanobeach" model="rapidusa.destino">
+            <field name="nombre_destino">Pompano Beach</field>
+        </record>
+    </data>
+</odoo>

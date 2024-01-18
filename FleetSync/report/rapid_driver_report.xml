@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="action_report_rapid_driver" model="ir.actions.report">
+        <field name="name">Transport Records </field>
+        <field name="model">report.rapidusa.rapid_driver</field>
+        <field name="report_type">qweb-html</field>
+        <field name="report_name">rapidusa.rapid_driver</field>
+    </record>
+
+    <template id="rapid_driver">
+        <t t-call="web.html_container">
+        <t t-call="web.external_layout">
+            <head>
+                <style>
+                    div{
+                    word-spacing: 1.5px;
+                    font-family: Arial, Helvetica, sans-serif;
+                    font-size: 12px;
+                    }
+                </style>
+                <h1>Vehicle Transfers Reports</h1>
+                <p><b>Date Range:</b> <t t-esc= "date_from"/>  To: <t t-esc="date_to"/>
+                </p>
+            </head>
+            <t t-if="a">
+                <p> "No Records to Show"</p>
+            </t>
+            <t t-if="not a">
+                <div class="page">
+                    <t t-foreach="docs" t-as="j">
+                        <table class="table table-bordered">
+                            <tr style="background-color:gray">
+                                <th>Date:</th>
+                                <th>Route:</th>
+                                <th>Quantity:</th>
+                                <th>Unit Price:</th>
+                                <th>Amount USD:</th>
+                            </tr>
+                            <tbody>
+                                <t t-foreach="docs[j]" t-as="i">
+                                    <tr>
+                                        <td>
+                                            <t t-esc="i['date']"/>
+                                        </td>
+                                        <td>
+                                            <t t-esc="i['route_id']"/>
+                                        </td>
+                                        <td>
+                                            <t t-esc="i['cantidad']"/>
+                                        </td>
+                                        <td>
+                                            <t t-esc="i['unit_price']"/>
+                                        </td>
+                                        <td>
+                                            <t t-esc="i['amount']"/>
+                                        </td>
+                                    </tr>
+                                    <t t-if="detail">
+                                        <tr>
+                                            <td>
+                                                <p>PLATES NUMBER</p>
+                                            </td>
+                                            <td colspan="5" style="background-color:white">
+                                                <t t-foreach="i['cars']" t-as="c">
+                                                    <t t-esc="c.chapa"/>
+                                                </t>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td/>
+                                            <td colspan="5" style="background-color:white">
+                                                <t t-foreach="i['cars']" t-as="c">
+                                                    <img t-attf-src="data:image/jpg;base64,
+                                                    {{ c.chapa_foto }}" style="align:left;
+                                                    width:85px;height:50px;"/>
+                                                </t>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="6" style="background-color:#c8c8c8"/>
+                                        </tr>
+                                    </t>
+                                </t>
+                            </tbody>
+                        </table>
+                    </t>
+                </div>
+            </t>
+        </t>
+        </t>
+    </template>
+</odoo>

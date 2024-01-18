@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record model="ir.actions.act_window" id="driver_hours_wizard_action">
+            <field name="name">Worked Hours</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">rapidusa.driver_hours_wizard</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+
+        <record id="driver_hours_wizard_form" model="ir.ui.view">
+            <field name="name">driver_hours</field>
+            <field name="model">rapidusa.driver_hours_wizard</field>
+            <field name="arch" type="xml">
+                <form string="Worked Hours">
+
+                    <group>
+                        <field name="start"/>
+                        <field name="end"/>
+                        <field name="fee" widget="monetary"/>
+                    </group>
+
+                    <footer>
+                        <button name="action_print" type="object" string="Ver" class="oe_highlight"/>
+                        <button special="cancel" string="Cancelar"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+</odoo>

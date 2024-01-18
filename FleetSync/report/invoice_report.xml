@@ -1,0 +1,284 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="action_report_invoice" model="ir.actions.report">
+        <field name="name">Invoice</field>
+        <field name="model">report.rapidusa.invoice</field>
+        <field name="report_type">qweb-html</field>
+        <field name="report_name">rapidusa.invoice</field>
+        <field name="print_report_name">'Rapid Usa Invoice'</field>
+
+    </record>
+
+    <template id="invoice">
+        <t t-call="web.html_container">
+            <t t-call="web.external_layout">
+                    <t t-foreach="docs" t-as="doc">
+                        <t t-foreach="aux[doc]" t-as="l">
+<!--                            Pagina para poner los ID de los Records que hay en la factura-->
+                            <div class="page">
+                                <head>
+                                    <style>
+                                        div{
+                                        word-spacing: 1.5px;
+                                        font-family: Arial, Helvetica, sans-serif;
+                                        font-size: 12px;
+                                        }
+                                    </style>
+                                    <h1>INVOICE RAPIDUSA-COPY</h1>
+                                    <div class="table">
+                                        <table>
+                                            <td>
+                                                <p>Sixt Rent A Car, LLC</p>
+                                                <p>1501 NW 49th St Suite 100</p>
+                                                <p>FT LAUDERDALE FL 33309</p>
+                                                <p>BROWARD</p>
+                                            </td>
+                                            <td>
+                                                <div>
+                                                    <p>
+                                                        <b>Invoice Date:</b>
+                                                        <t t-esc="l['date_inv']"/>
+                                                    </p>
+                                                    <p>
+                                                        <b>Due Date:</b>
+                                                        <t t-esc="l['due_date']"/>
+                                                    </p>
+                                                    <p>
+                                                        <b>Invoice Number:</b>
+                                                        <t t-esc="l['invoice']"/>
+                                                    </p>
+                                                    <p>
+                                                        <b>Reference:</b>
+                                                        Vendor 81016364
+                                                    </p>
+                                                </div>
+                                            </td>
+                                        </table>
+                                    </div>
+                                </head>
+                                <table class="table table-bordered">
+                                    <thead>
+                                        <tr style="background-color:gray">
+                                            <th>Id</th>
+                                            <th>Description</th>
+                                            <th>Dispatched</th>
+                                            <th>Quantity</th>
+                                            <th>Unit Price</th>
+                                            <th>Amount USD</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <t t-foreach="docs[doc]" t-as="k">
+                                            <t t-foreach="k" t-as="j">
+                                                <t t-foreach="k[j]" t-as="i">
+                                                    <tr>
+                                                        <td>
+                                                            <t t-esc="i['transfer_id']"/>
+                                                        </td>
+                                                        <td>
+                                                            <t t-esc="i['route_id']"/>
+                                                        </td>
+                                                        <td>
+                                                            <t t-esc="j"/>
+                                                        </td>
+                                                        <td>
+                                                            <t t-esc="i['cantidad']"/>
+                                                        </td>
+                                                        <td>
+                                                            <t t-esc="i['unit_price']"/>
+                                                        </td>
+                                                        <td>
+                                                            <t t-esc="i['amount']"/>
+                                                        </td>
+                                                    </tr>
+                                                </t>
+                                            </t>
+                                        </t>
+                                        <tr>
+                                            <td colspan="3"/>
+                                            <td>
+                                                <p>Total</p>
+                                            </td>
+                                            <td>
+                                                <p>$<t t-esc="l['total']"/></p>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <p style="page-break-before:always;"/>
+    <!--                        Pagina de factura para Sixt-->
+                            <div class="page">
+                                <head>
+                                    <style>
+                                        div{
+                                        word-spacing: 1.5px;
+                                        font-family: Arial, Helvetica, sans-serif;
+                                        font-size: 12px;
+                                        }
+                                    </style>
+                                    <h1>INVOICE</h1>
+                                    <div class="table">
+                                        <table>
+                                            <td>
+                                                <p>Sixt Rent A Car, LLC</p>
+                                                <p>1501 NW 49th St Suite 100</p>
+                                                <p>FT LAUDERDALE FL 33309</p>
+                                                <p>BROWARD</p>
+                                            </td>
+                                            <td>
+                                                <div>
+                                                    <p>
+                                                        <b>Invoice Date:</b>
+                                                        <t t-esc="l['date_inv']"/>
+                                                    </p>
+                                                    <p>
+                                                        <b>Due Date:</b>
+                                                        <t t-esc="l['due_date']"/>
+                                                    </p>
+                                                    <p>
+                                                        <b>Invoice Number:</b>
+                                                        <t t-esc="l['invoice']"/>
+                                                    </p>
+                                                    <p>
+                                                        <b>Reference:</b>
+                                                        Vendor 81016364
+                                                    </p>
+                                                </div>
+                                            </td>
+                                        </table>
+                                    </div>
+                                </head>
+                                <table class="table table-bordered">
+                                    <thead>
+                                        <tr style="background-color:gray">
+                                            <th>Description</th>
+                                            <th>Dispatched</th>
+                                            <th>Quantity</th>
+                                            <th>Unit Price</th>
+                                            <th>Amount USD</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <t t-foreach="docs[doc]" t-as="k">
+                                            <t t-foreach="k" t-as="j">
+                                                <t t-foreach="k[j]" t-as="i">
+                                                    <tr>
+                                                        <td>
+                                                            <t t-esc="i['route_id']"/>
+                                                        </td>
+                                                        <td>
+                                                            <t t-esc="j"/>
+                                                        </td>
+                                                        <td>
+                                                            <t t-esc="i['cantidad']"/>
+                                                        </td>
+                                                        <td>
+                                                            <t t-esc="i['unit_price']"/>
+                                                        </td>
+                                                        <td>
+                                                            <t t-esc="i['amount']"/>
+                                                        </td>
+                                                    </tr>
+                                                </t>
+                                            </t>
+                                        </t>
+                                        <tr>
+                                            <td colspan="3"/>
+                                            <td>
+                                                <p>Total</p>
+                                            </td>
+                                            <td>
+                                                <p>$<t t-esc="l['total']"/></p>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <p style="page-break-before:always;"/>
+    <!--                            Si se impremen los detalles de los viajes se genera una pagina con la descripcion-->
+                            <t t-if="detail">
+                                <div class="page">
+                                    <head>
+                                        <style>
+                                            div{
+                                            word-spacing: 1.5px;
+                                            font-family: Arial, Helvetica, sans-serif;
+                                            font-size: 12px;
+                                            }
+                                        </style>
+                                    </head>
+                                    <div>
+                                        <h6> <b>Date:</b> <t t-esc="l['date_inv']" /></h6>
+                                        <h6> <b>Invoice Number:</b> <t t-esc="l['invoice']"/> </h6>
+                                    </div>
+                                    <table class="table table-bordered">
+                                        <tr style="background-color:gray">
+                                            <th>Date:</th>
+                                            <th>Route:</th>
+                                            <th>Dispatcher</th>
+                                            <th>Quantity:</th>
+                                            <th>Unit Price:</th>
+                                            <th>Amount USD:</th>
+                                        </tr>
+                                        <tbody>
+                                            <t t-foreach="docs[doc]" t-as="k">
+                                                <t t-foreach="k" t-as="j">
+                                                    <t t-foreach="k[j]" t-as="i">
+                                                        <tr>
+                                                            <td>
+                                                                <t t-esc="l['date_inv']"/>
+                                                            </td>
+                                                            <td>
+                                                                <t t-esc="i['route_id']"/>
+                                                            </td>
+                                                            <td>
+                                                                <t t-esc="j"/>
+                                                            </td>
+                                                            <td>
+                                                                <t t-esc="i['cantidad']"/>
+                                                            </td>
+                                                            <td>
+                                                                <t t-esc="i['unit_price']"/>
+                                                            </td>
+                                                            <td>
+                                                                <t t-esc="i['amount']"/>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>
+                                                                <p>PLATES NUMBER</p>
+                                                            </td>
+                                                            <td colspan="5" style="background-color:white">
+                                                                <t t-foreach="i['cars']" t-as="c">
+                                                                    <t t-esc="c.chapa"/>
+                                                                </t>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td/>
+                                                            <td colspan="5" style="background-color:white">
+                                                                <t t-foreach="i['cars']" t-as="c">
+                                                                    <img t-attf-src="data:image/jpg;base64,
+                                                                {{ c.chapa_foto }}" style="align:left;
+                                                                width:85px;height:50px;"/>
+                                                                </t>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td colspan="6" style="background-color:#c8c8c8"/>
+                                                        </tr>
+                                                    </t>
+                                                </t>
+                                            </t>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <p style="page-break-before:always;"/>
+                        </t>
+                    </t>
+                    </t>
+            </t>
+        </t>
+    </template>
+</odoo>

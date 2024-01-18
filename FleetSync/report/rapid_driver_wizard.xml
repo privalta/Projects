@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record model="ir.actions.act_window" id="rapid_driver_wizard_action">
+            <field name="name">Vehicles Movements</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">rapidusa.rapid_driver_wizard</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+
+        <record id="rapid_driver_wizard_form" model="ir.ui.view">
+            <field name="name">Vehicles Movements</field>
+            <field name="model">rapidusa.rapid_driver_wizard</field>
+            <field name="arch" type="xml">
+                <form string="Vehicles Moved">
+
+                    <group>
+                        <field name="start"/>
+                        <field name="end"/>
+                        <field name="details"/>
+                    </group>
+
+                    <footer>
+                        <button name="action_print" type="object" string="Ver" class="oe_highlight"/>
+                        <button special="cancel" string="Cancelar"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+</odoo>

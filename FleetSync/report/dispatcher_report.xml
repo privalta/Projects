@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="action_report_dispatcher" model="ir.actions.report">
+        <field name="name">Transfers Report by Dispatcher </field>
+        <field name="model">report.rapidusa.dispatcher</field>
+        <field name="report_type">qweb-html</field>
+        <field name="report_name">rapidusa.dispatcher</field>
+    </record>
+
+     <template id="dispatcher">
+        <t t-call="web.html_container">
+        <t t-call="web.external_layout">
+            <head>
+                <style>
+                    div{
+                    word-spacing: 1.5px;
+                    font-family: Arial, Helvetica, sans-serif;
+                    font-size: 12px;
+                    }
+                </style>
+                <h1>Transfers Report by Dispatcher</h1>
+                <p><b>Date Range:</b> <t t-esc= "date_from"/>  To: <t t-esc="date_to"/><br/>
+                    <b>Dispatcher:</b> <t t-esc="dispatcher_name"/><br/>
+                </p>
+            </head>
+            <t t-if="a">
+                <p> "No Records to Show"</p>
+            </t>
+            <t t-if="not a">
+                    <div class="page">
+                            <table class="table table-bordered" style="border-color:black">
+                                <tr style="background-color:gray">
+                                    <th>Trace Nº</th>
+                                    <th>Date</th>
+                                    <th>Route</th>
+                                    <th>Order Dispatched</th>
+                                    <th>Unit Price</th>
+                                    <th>Quantity</th>
+                                    <th>Amount USD</th>
+                                </tr>
+                                <tbody>
+                                    <t t-foreach="docs" t-as="i">
+                                        <tr>
+                                            <td>
+                                                <t t-esc="i.transfer_id"/>
+                                            </td>
+                                            <td>
+                                                <t t-esc="i.cr_date"/>
+                                            </td>
+                                            <td>
+                                                <t t-esc="i.route_id.route_name"/>
+                                            </td>
+                                            <td>
+                                                <t t-esc=" i.dispatcher_id.name"/>
+                                            </td>
+                                            <td>
+                                                <t t-esc="i.route_id.fee"/>
+                                            </td>
+                                            <td>
+                                                <t t-esc="i.cars_total"/>
+                                            </td>
+                                            <td>
+                                                <t t-esc="i.fees_related"/>
+                                            </td>
+                                        </tr>
+                                        <t t-if="detail">
+                                            <tr>
+                                                <td>
+                                                    <p>PLATES NUMBER</p>
+                                                </td>
+                                                <td colspan="6" style="background-color:white">
+                                                    <t t-foreach="i.rapidcar_ids" t-as="c">
+                                                        <t t-esc="c.chapa"/>
+                                                    </t>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td><p>PLATES PHOTOS</p></td>
+                                                <td colspan="6" style="background-color:white">
+                                                    <t t-foreach="i.rapidcar_ids" t-as="c">
+                                                        <img t-attf-src="data:image/jpg;base64,
+                                                    {{ c.chapa_foto }}" style="align:left;
+                                                    width:85px;height:50px;"/>
+                                                    </t>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="7" style="background-color:#c8c8c8"/>
+                                            </tr>
+                                        </t>
+                                    </t>
+                                </tbody>
+                            </table>
+                    </div>
+                </t>
+        </t>
+        </t>
+    </template>
+</odoo>

@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+<!--    RAPID DRIVER REPORT-->
+
+    <record id="action_report_binding_rapid_driver" model="ir.actions.report">
+			<field name="name">Print PDF </field>
+			<field name="model">rapidusa.rapid_driver</field>
+			<field name="report_type">qweb-pdf</field>
+			<field name="report_name">rapidusa.rapid_driver_binding</field>
+			<field name="binding_model_id" ref="model_rapidusa_rapid_driver"/>
+        	<field name="binding_type">report</field>
+    </record>
+
+    <template id="rapid_driver_binding">
+        <t t-call="web.html_container">
+        <t t-call="web.external_layout">
+            <head>
+                <style>
+                    div{
+                    word-spacing: 1.5px;
+                    font-family: Arial, Helvetica, sans-serif;
+                    font-size: 12px;
+                    }
+                </style>
+            </head>
+            <div class="page">
+                <t t-foreach="docs" t-as="i">
+                    <table class="table table-condensed">
+                        <tr style="background-color:gray">
+                            <th>Trace Nº:</th>
+                            <th>Date:</th>
+                            <th>Route:</th>
+                            <th>Order Dispatched</th>
+                            <th>Fee</th>
+                            <th>Amount</th>
+                            <th>Total</th>
+                        </tr>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <t t-esc="i.transfer_id"/>
+                                </td>
+                                <td>
+                                    <t t-esc="i.cr_date"/>
+                                </td>
+                                <td>
+                                    <t t-esc="i.route_id.route_name"/>
+                                </td>
+                                <td>
+                                    <t t-esc="i.dispatcher_id.name"/>
+                                </td>
+                                <td>
+                                    <t t-esc="i.route_id.fee"/>
+                                </td>
+                                <td>
+                                    <t t-esc="i.cars_total"/>
+                                </td>
+                                <td>
+                                    <t t-esc="i.fees_related"/>
+                                </td>
+                            </tr>
+                            <tr colspan = "7" style="text-align:center; background-color: #c8c8c8;">                                          <th colspan = "6">
+                                VEHICLES LIST
+                            </th>
+                            </tr>
+                            <t t-foreach="i.rapidcar_ids" t-as="j">
+                                <tr style="background-color:#c8c8c8; font-weight: bold ">
+                                    <th colspan="2">PLATE PHOTO</th>
+                                    <th colspan = "2">PLATE</th>
+                                    <th colspan = "3">DRIVER</th>
+                                </tr>
+                                <tr>
+                                    <td colspan = "2">
+                                        <img t-attf-src="data:image/jpg;base64,
+                                {{ j.chapa_foto }}" style="align:left;
+                                width:85px;height:50px;"/>
+                                    </td>
+                                    <td colspan = "2">
+                                        <t t-esc="j.chapa"/>
+                                    </td>
+                                    <td colspan = "3">
+                                        <t t-esc="j.driver_id.name"/>
+                                    </td>
+                                </tr>
+                            </t>
+                        </tbody>
+                    </table>
+                </t>
+            </div>
+        </t>
+        </t>
+    </template>
+
+    <record id="action_report_binding_rapid_car" model="ir.actions.report">
+			<field name="name">Print PDF </field>
+			<field name="model">rapidusa.rapid_car</field>
+			<field name="report_type">qweb-pdf</field>
+			<field name="report_name">rapidusa.rapid_car_binding</field>
+			<field name="binding_model_id" ref="model_rapidusa_rapid_car"/>
+        	<field name="binding_type">report</field>
+    </record>
+
+    <template id="rapid_car_binding">
+        <t t-call="web.html_container">
+        <t t-call="web.external_layout">
+            <head>
+                <style>
+                    div{
+                    word-spacing: 1.5px;
+                    font-family: Arial, Helvetica, sans-serif;
+                    font-size: 12px;
+                    }
+                </style>
+            </head>
+            <div class="page">
+                    <table class="table table-condensed">
+                        <tr style="background-color:gray">
+                            <th>Trace Nº</th>
+                            <th>Date</th>
+                            <th>Plate</th>
+                            <th>Plate Photo</th>
+                            <th>Route</th>
+                            <th>Driver</th>
+                            <th>Initial Mileage</th>
+                            <th>Final Mileage</th>
+                            <th>Miles Driven</th>
+                        </tr>
+                        <tbody>
+                            <t t-foreach="docs" t-as="i">
+                                <tr>
+                                    <td>
+                                        <t t-esc="i.rapiddriver_id.transfer_id"/>
+                                    </td>
+                                    <td>
+                                        <t t-esc="i.rapiddriver_id.cr_date"/>
+                                    </td>
+                                    <td>
+                                        <t t-esc="i.chapa"/>
+                                    </td>
+                                    <td>
+                                        <t t-esc="i.chapa_foto"/>
+                                    </td>
+                                    <td>
+                                        <t t-esc="i.route_id_rel.route_name"/>
+                                    </td>
+                                    <td>
+                                        <t t-esc="i.driver_id.name"/>
+                                    </td>
+                                    <td>
+                                        <t t-esc="i.millas_start"/>
+                                    </td>
+                                    <td>
+                                        <t t-esc="i.millas_fin"/>
+                                    </td>
+                                    <td>
+                                        <t t-esc="millas_total"/>
+                                    </td>
+                                </tr>
+                            </t>
+                        </tbody>
+                    </table>
+            </div>
+        </t>
+        </t>
+    </template>
+
+    <record id="action_report_binding_attendances" model="ir.actions.report">
+			<field name="name">Print PDF </field>
+			<field name="model">rapidusa.attendances</field>
+			<field name="report_type">qweb-pdf</field>
+			<field name="report_name">rapidusa.attendances_binding</field>
+			<field name="binding_model_id" ref="model_rapidusa_attendances"/>
+        	<field name="binding_type">report</field>
+    </record>
+
+    <template id="attendances_binding">
+        <t t-call="web.html_container">
+        <t t-call="web.external_layout">
+            <head>
+                <style>
+                    div{
+                    word-spacing: 1.5px;
+                    font-family: Arial, Helvetica, sans-serif;
+                    font-size: 12px;
+                    }
+                </style>
+            </head>
+            <div class="page">
+                    <table class="table table-condensed">
+                        <tr style="background-color:gray">
+                            <th>Date</th>
+                            <th>Check-In</th>
+                            <th>Check-Out</th>
+                            <th>Worked Hours</th>
+                            <th colspan="2">Employees</th>
+                        </tr>
+                        <tbody>
+                            <t t-foreach="docs" t-as="i">
+                                <tr>
+                                    <td>
+                                        <t t-esc="i.cr_date"/>
+                                    </td>
+                                    <td>
+                                        <t t-esc="i.check_in"/>
+                                    </td>
+                                    <td>
+                                        <t t-esc="i.check_out"/>
+                                    </td>
+                                    <td>
+                                        <t t-esc="i.worked_hours"/>
+                                    </td>
+                                    <td>
+                                        <t t-esc="i.workers"/>
+                                    </td>
+                                    <td>
+                                        <t t-foreach="i.employees_id" t-as="j">
+                                            <p><t t-esc="j.name"/>,</p>
+                                        </t>
+
+                                    </td>
+                                </tr>
+                            </t>
+                        </tbody>
+                    </table>
+            </div>
+        </t>
+        </t>
+    </template>
+</odoo>
