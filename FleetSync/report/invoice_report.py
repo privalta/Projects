@@ -7,10 +7,12 @@ from odoo import fields, models, tools, api
 from odoo.tools import DEFAULT_SERVER_DATE_FORMAT as DATE_FORMAT
 import calendar
 from dateutil.relativedelta import relativedelta
+from collections import defaultdict
 
 
 class ReportInvoice(models.AbstractModel):
     _name = 'report.rapidusa.invoice'
+
 
     @api.model
     def _get_report_values(self, docsids, data=None):
@@ -18,58 +20,32 @@ class ReportInvoice(models.AbstractModel):
         start_date = datetime.strptime(str(data['form']['date_start']), DATE_FORMAT)
         end_date = datetime.strptime(str(data['form']['date_end']), DATE_FORMAT)
         detail = data['form']['detail']
-        inv = data['form']['inv']
+        invoice_from = data['form']['inv']
 
         transfers = self.env['rapidusa.rapid_driver'].search([
             ('cr_date', '>=', start_date),
             ('cr_date', '<=', end_date)], order='cr_date')
-
-        docs = {}
-        aux = {}
+        
+        docs={}
+        invoice = invoice_from - 1
 
         for i in transfers:
-            date = str(i.cr_date)
-            dispatch = i.dispatcher_id.name
-            new={}
+            invoice += 1
+            invoice_no = 'INV-' + str(invoice)
+            # inv_date = datetime.strptime(i.cr_date, DATE_FORMAT)
+            date_inv = str(i.cr_date.month) + '-' + str(i.cr_date.day) + '-' + str(i.cr_date.year)
+            due_date = i.cr_date + relativedelta(days=31)
+            due_date_str = str(due_date.month) + '-' + str(due_date.day) + '-' + str(due_date.year)
 
-            j = {'transfer_id': i.transfer_id, 'route_id': i.route_id.route_name, 'cantidad': i.cars_total,
-                 'unit_price': format(i.route_id.fee, ".2f"),
-                 'amount': i.fees_related, 'cars': i.rapidcar_ids}
+            j = {'transfer_id': i.transfer_id, 'dispatcher':i.dispatcher_id.name, 'route': i.route_id.route_name,
+                 'cars_total': i.cars_total, 'unit_price':i.route_id.fee, 'cars': i.rapidcar_ids, 'fees': i.fees_related,
+                 'date_inv': date_inv, 'due_date': due_date_str}
 
-            # create a dict with dispatcher as the key for each record
-            if dispatch not in new.keys():
-                new[dispatch] = []
-            new[dispatch].append(j)
+            # create a dict with route as the key for each record
+            if invoice_no not in docs.keys():
+                docs[invoice_no] = []
+            docs[invoice_no].append(j)
 
-            # add the dict to a new one with date as a key for each record
-            # The structure would be date/dispatcher/transfer records
-            if date not in docs.keys():
-                docs[date] = []
-            docs[date].append(new)
-
-        # calculate totals
-        for dates in docs: # a = date
-            invoice = inv[dates]
-            total = 0.00
-            for dispatcher_list in docs[dates]:  # b = a_date/dispatcher
-                for dispatcher in dispatcher_list:  # c = list of transfer_records
-                    for record in dispatcher_list[dispatcher]:  # d single record
-                        total += record['amount']
-                        record['amount'] = format(record['amount'], ".2f")  # restructura el num a monetary
-            inv_date = datetime.strptime(dates, DATE_FORMAT)  # convertir a en formato la fecha_invoice
-            due_date = inv_date + relativedelta(days=31)  # c=due+date
-            due_date_str = str(due_date.month)+'-'+str(due_date.day)+'-'+str(due_date.year)
-            date_inv = str(inv_date.month)+'-'+str(inv_date.day)+'-'+str(inv_date.year)
-
-            e = {'total': format(total, ".2f"),
-                 'date_inv': date_inv,
-                 'due_date': due_date_str,
-                 'invoice': invoice,
-                }
-
-            if dates not in aux.keys():
-                aux[dates] = []
-            aux[dates].append(e)
 
         return {
             'doc_ids': data['ids'],
@@ -77,7 +53,6 @@ class ReportInvoice(models.AbstractModel):
             'date_from': start_date,
             'date_to': end_date,
             'docs': docs,
-            'aux': aux,
             'detail': detail,
         }
 
