@@ -20,22 +20,6 @@ class ReportInvoiceWizard(models.TransientModel):
 
 
     def action_print(self):
-
-        inv={}
-        invent = self.inve-1
-        transfers = self.env['rapidusa.rapid_driver'].search([
-            ('cr_date', '>=', self.start),
-            ('cr_date', '<=', self.end)], order='cr_date')
-
-        for i in transfers:
-            date = str(i.cr_date)
-            if date not in inv.keys():
-                inv[date] = []
-
-        for j in inv:
-            invent += 1
-            inv[j] = 'INV-' + str(invent)
-
         data = {
             'ids': self.ids,
             'model': self._name,
@@ -43,9 +27,7 @@ class ReportInvoiceWizard(models.TransientModel):
                 'date_start': self.start,
                 'date_end': self.end,
                 'detail': self.detail,
-                'inv': inv,
-
-
+                'inv': self.inve,
             },
         }
         return self.env.ref('rapidusa.action_report_invoice').report_action(self, data=data)
