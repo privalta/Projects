@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record model="res.groups" id="rapid_driver_driver" >
+        <field name="name">RapidUSA Lead Driver</field>
+    </record>
+
+    <record id="rapid_driver_manager" model="res.groups">
+        <field name="name">RapidUSA Manager</field>
+    </record>
+
+    <record id="rapid_driver_external" model="res.groups">
+        <field name="name">Six Representative</field>
+    </record>
+
+    <record id="rapid_driver_readonly" model="res.groups">
+        <field name="name">Modify Readonly</field>
+    </record>
+</odoo>
+
+

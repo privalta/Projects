@@ -1,0 +1,25 @@
+default_stages: [commit]
+fail_fast: false
+
+repos:
+-   repo: https://github.com/timothycrosley/isort
+    rev: 5.12.0
+    hooks:
+      - id: isort
+        name: isort except __init__.py
+        args:
+          - --settings=.
+        exclude: /__init__\.py$
+        entry: bash -c 'isort "$@"; git add -u' --
+-   repo: https://github.com/psf/black
+    rev: 23.10.1
+    hooks:
+    - id: black
+      language_version: python3.8.10
+      entry: bash -c 'black "$@"; git add -u' --
+-   repo: https://github.com/pycqa/flake8
+    rev: 3.9.2
+    hooks:
+    - id: flake8
+      name: flake8 except __init__.py
+      exclude: /__init__\.py$

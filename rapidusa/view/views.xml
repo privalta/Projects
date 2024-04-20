@@ -1,0 +1,465 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+		     <!--        RECORD VIEWS-->
+
+		<record id="seq_rapid_driver" model="ir.sequence">
+		   <field name="name">Vehicles Moved Sequence</field>
+		   <field name="code">rapid_driver</field>
+		   <field name="prefix">VM-</field>
+		   <field name="padding">4</field>
+		   <field name="company_id" eval="False"/>
+	   </record>
+
+		<record id="seq_invoice" model="ir.sequence">
+		   <field name="name">Invoice Sequence</field>
+		   <field name="code">invoice</field>
+		   <field name="prefix">INV-</field>
+		   <field name="padding">4</field>
+		   <field name="company_id" eval="False"/>
+	   </record>
+
+        <record model="ir.actions.act_window" id="rapidusa.attendances_action">
+	        <field name = "name">Attendances</field>
+		    <field name="res_model">rapidusa.attendances</field>
+		    <field name="view_mode">tree,form</field>
+		</record>
+
+		<record model="ir.actions.act_window" id="rapidusa.rapid_car_action">
+	        <field name = "name">Vehicle Logs</field>
+		    <field name="res_model">rapidusa.rapid_car</field>
+			<field name="context">{'search_default_group_transfer': 1}</field>
+		    <field name="view_mode">tree,form</field>
+		</record>
+
+		<record model="ir.actions.act_window" id="rapidusa.rapid_driver_action">
+	        <field name = "name">Transport Records</field>
+		    <field name="res_model">rapidusa.rapid_driver</field>
+			<field name="context">{'search_default_today':1}</field>
+		    <field name="view_mode">kanban,form,tree,pivot</field>
+		</record>
+
+		<record model="ir.actions.server" id="do_status_bill">
+			<field name="name">Update Status: Billing</field>
+			<field name="model_id" ref="model_rapidusa_rapid_driver"/>
+			<field name="binding_model_id" ref="model_rapidusa_rapid_driver"/>
+			<field name="state">code</field>
+			<field name="code">
+				action = records.do_status_bill()
+			</field>
+		</record>
+
+		<record model="ir.actions.server" id="do_status_pay">
+			<field name="name">Update Status: Pay</field>
+			<field name="model_id" ref="model_rapidusa_rapid_driver"/>
+			<field name="binding_model_id" ref="model_rapidusa_rapid_driver"/>
+			<field name="state">code</field>
+			<field name="code">
+				action = records.do_status_pay()
+			</field>
+		</record>
+
+		<record model="ir.actions.act_window" id="rapidusa.rapid_driver_fees_action">
+	        <field name = "name">Routes and Fees</field>
+		    <field name="res_model">rapidusa.rapid_driver_fees</field>
+		    <field name="view_mode">tree,form</field>
+		</record>
+
+		<record model="ir.actions.act_window" id="rapidusa.destino_action">
+	        <field name = "name">Destinations</field>
+		    <field name="res_model">rapidusa.destino</field>
+		    <field name="view_mode">tree,form</field>
+		</record>
+
+		<record model="ir.actions.act_window" id="rapidusa.dispatch_action">
+	        <field name = "name">Distpatcher</field>
+		    <field name="res_model">rapidusa.dispatch</field>
+		    <field name="view_mode">tree,form</field>
+		</record>
+
+<!--		FORM VIEWS-->
+		<record id="attendances_form" model="ir.ui.view">
+            <field name="name">Attendances</field>
+            <field name="model">rapidusa.attendances</field>
+            <field name="arch" type="xml">
+				<form string="Attendances">
+					<header>
+						<button name="do_check_out" type="object" string="Check Out"  class="oe_right oe_highlight" />
+					</header>
+					<sheet>
+						<notebook>
+							<page string="Attendance">
+								<group>
+									<field name="cr_date"/>
+									<field name="workers"/>
+								</group>
+								<field name="employees_id" colspan="2" >
+									<tree>
+										<field name="name"/>
+										<field name="parent_id"/>
+									</tree>
+								</field>
+								<group>
+									<field name="check_in"/>
+									<field name="check_out"/>
+									<field name="worked_hours"/>
+								</group>
+							</page>
+						</notebook>
+					</sheet>
+				</form>
+            </field>
+        </record>
+
+		<record id="hr_employee_form_inherit" model="ir.ui.view">
+            <field name="name">hr_employee.form</field>
+            <field name="model">hr.employee</field>
+            <field name="inherit_id" ref="hr.view_employee_form"/>
+            <field name="priority" eval="8"/>
+            <field name="arch" type="xml">
+				<field name="department_id" position="attributes">
+                   <attribute name="invisible">1</attribute>
+                </field>
+				<field name="coach_id" position="attributes">
+                   <attribute name="invisible">1</attribute>
+                </field>
+				<field name="work_phone" position="attributes">
+                   <attribute name="invisible">1</attribute>
+                </field>
+				<field name="work_location" position="attributes">
+                   <attribute name="invisible">1</attribute>
+                </field>
+            </field>
+        </record>
+
+		<record model="ir.ui.view" id="rapid_driver_form">
+		    <field name="name">Transport Records</field>
+			<field name="model">rapidusa.rapid_driver</field>
+			<field name="type">form</field>
+			<field name="arch" type="xml">
+			    <form string="Transport Records">
+					<header>
+						<field name="status" widget="statusbar"/>
+						<button name="do_status_go" type="object" string="Ready to Go"  class="oe_right oe_highlight" />
+						<button name="do_status_end" type="object" string="Confirm Arrive"  class="oe_right oe_highlight" />
+						<button name ="do_status_next" type="object" string="Foward Billing Status" class="oe_right"/>
+						<button name="do_status_back" type="object" string="Backward Billing Status" class="oe_right"/>
+					</header>
+					<sheet>
+						<h4>
+							<field name="transfer_id" colspan="1"/>
+							<field name="acc_status" widget="statusbar" class="oe_right" groups="rapidusa.rapid_driver_manager"/>
+
+						</h4>
+						<notebook>
+							<page string="General Information">
+								<group>
+										<field name="route_id"/>
+										<field name="dispatcher_id"/>
+								</group>
+								<group>
+									<field name="cr_date" invisible="0"  />
+									<field name="cars_total"/>
+								</group>
+								<div>
+								<div class="oe_left">
+									<h6>Route Itinerary</h6>
+									<label for="start_time"/>
+									<field name="start_time" colspan="1" attrs="{'invisible': [('status','=','To_Go')]}"/> <br/>
+									<label for="end_time"/>
+									<field name="end_time" colspan="2" attrs="{'invisible': ['|',('status','=','To_Go'),('status','=', 'Road')]}"/> <br/>
+									<label for="trayecto_hrs"/>
+									<field name="trayecto_hrs" colspan="1" attrs="{'invisible': ['|',('status','=','To_Go'),('status','=', 'Road')]}"/> <br/>
+								</div>
+								<div class="oe_right">
+									<h6>Billing Information</h6>
+									<label for="date_billed"/>
+									<field name="date_billed" groups="rapidusa.rapid_driver_manager"/><br/>
+									<label for="date_paid"/>
+									<field name="date_paid" groups="rapidusa.rapid_driver_manager"/><br/>
+								</div>
+								</div> <br/>
+								<group>
+									<div class="oe_right">
+									<h4>
+										<label for="fees_related" />
+										<field name="fees_related" widget="monetary" colspan="1"/>
+									</h4>
+								</div>
+								</group>
+
+							</page>
+
+							<page string ="Vehicles">
+								<field name="rapidcar_ids">
+									<tree editable = "bottom">
+										<field name="chapa"/>
+										<field name="chapa_foto" widget="image" class="o_form_view oe_avatar" />
+										<field name="driver_id" widget="many2one_avatar_employee"/>
+<!--										<field name="millas_start"/>-->
+<!--										<field name="millas_fin"/>-->
+<!--										<field name="millas_total"/>-->
+									</tree>
+								</field>
+								<div class="oe_right">
+									<h4>
+										<label for="cars_total"/>
+										<field name="cars_total"/>
+									</h4>
+								</div>
+							</page>
+						</notebook>
+					</sheet>
+				</form>
+			</field>
+		</record>
+
+		<record model="ir.ui.view" id="rapid_car_form">
+		    <field name="name">Vehicle Logs</field>
+			<field name="model">rapidusa.rapid_car</field>
+			<field name="type">form</field>
+			<field name="arch" type="xml">
+			    <form create="false" string="Vehicle Logs">
+					<sheet>
+						<notebook>
+							<page string="General Infromation">
+								<group colspan="2">
+									<h6>
+										<field name="rapiddriver_id" readonly="1"/><br/>
+										<field name="route_id_rel"/><br/>
+									</h6>
+								</group>
+								<group class="oe_right">
+									<field name="chapa_foto" nolabel="1" colspan="4" widget="image" class="o_form_view oe_avatar"/>
+								</group>
+								<group colspan="2">
+									<field name="chapa" readonly="1"/>
+									<field name="driver_id" colspan="2" readonly="1"/>
+								</group>
+								<group colspan="2">
+									<field name="millas_start"/>
+									<field name="millas_fin"/>
+									<field name="millas_total"/>
+								</group>
+							</page>
+						</notebook>
+
+					</sheet>
+				</form>
+			</field>
+		</record>
+
+		<record model="ir.ui.view" id="rapid_driver_fees_form">
+		    <field name="name">Route Fees</field>
+			<field name="model">rapidusa.rapid_driver_fees</field>
+			<field name="type">form</field>
+			<field name="arch" type="xml">
+			    <form string="Route and Fees">
+					<sheet>
+						<group colspan="2">
+							<field name="route_name" invisible="1"/>
+							<field name="transfer_from" colspan="2" />
+							<field name="transfer_to" colspan="2" />
+						</group>
+						<group>
+							<field name="fee" widget="monetary"/>
+						</group>
+					</sheet>
+				</form>
+			</field>
+		</record>
+
+
+<!--		TREE VIEWS-->
+		<record model="ir.ui.view" id="rapid_driver_tree_view">
+		    <field name="name">Vehicles Moved</field>
+			<field name="model">rapidusa.rapid_driver</field>
+			<field name="type">tree</field>
+			<field name="arch" type="xml">
+			    <tree  default_order='cr_date desc' string="Transport Records">
+					<field name="cr_date"/>
+				    <field name="transfer_id"/>
+				    <field name="route_id"/>
+					<field name="status"/>
+					<field name="acc_status"/>
+					<field name="fees_related"/>
+				</tree>
+			</field>
+		</record>
+
+		<record model="ir.ui.view" id="attendances_tree_view">
+		    <field name="name">Attendances</field>
+			<field name="model">rapidusa.attendances</field>
+			<field name="type">tree</field>
+			<field name="arch" type="xml">
+			    <tree default_order='cr_date desc' string="Attendances">
+					<field name="cr_date"/>
+				    <field name="check_in"/>
+				    <field name="check_out"/>
+					<field name="worked_hours"/>
+				</tree>
+			</field>
+		</record>
+
+		<record model="ir.ui.view" id="rapid_car_tree_view">
+		    <field name="name">Vehicle Logs</field>
+			<field name="model">rapidusa.rapid_car</field>
+			<field name="type">tree</field>
+			<field name="arch" type="xml">
+			    <tree  create="false" default_order='rapiddriver_id desc' string="Vehicle Logs">
+					<field name="rapiddriver_id"/>
+				    <field name="chapa"/>
+				    <field name="driver_id"/>
+					<field name="route_id_rel"/>
+				</tree>
+			</field>
+		</record>
+
+		<record model="ir.ui.view" id="rapid_driver_fees_tree_view">
+		    <field name="name">Routes and Fees</field>
+			<field name="model">rapidusa.rapid_driver_fees</field>
+			<field name="type">tree</field>
+			<field name="arch" type="xml">
+			    <tree string="Routes and Fees">
+				    <field name="route_name"/>
+				    <field name="fee" widget="monetary"/>
+				</tree>
+			</field>
+		</record>
+
+		<record model="ir.ui.view" id="rapid_driver_destino_tree_view">
+		    <field name="name">Locations</field>
+			<field name="model">rapidusa.destino</field>
+			<field name="type">tree</field>
+			<field name="arch" type="xml">
+			    <tree string="Locations">
+				    <field name="nombre_destino"/>
+				    <field name="direccion"/>
+				</tree>
+			</field>
+		</record>
+
+<!--				FILTER VIEW-->
+		<record id="rapid_driver_status_filter" model="ir.ui.view">
+			<field name="name">rapid_driver_status_filter</field>
+			<field name="model">rapidusa.rapid_driver</field>
+			<field name="arch" type="xml">
+				<search>
+					<filter name="today" string="Today"
+							domain="[('cr_date','&gt;=', datetime.datetime.combine(context_today(), datetime.time(0,0,0))),
+							('cr_date','&lt;=', datetime.datetime.combine(context_today(), datetime.time(23,59,59)))]" />
+					<separator/>
+					<filter string="Running" name="road"  domain="[('status','=','Road')]"/>
+					<filter string="Arrived" name="arrived"  domain="[('status','=','Arrived')]"/>
+					<separator/>
+					<filter string="Billed" name="road"  domain="[('acc_status','=','Billed')]"/>
+					<filter string="Paid" name="arrived"  domain="[('acc_status','=','Paid')]"/>
+					<field name="transfer_id"/>
+					<field name="route_id"/>
+					<field name="dispatcher_id"/>
+
+				</search>
+			</field>
+		</record>
+
+<!--		FILTER VIEW-->
+<!--		<record id="rapid_driver_fees_status_filter" model="ir.ui.view">-->
+<!--			<field name="name">rapid_driver_fees_filter</field>-->
+<!--			<field name="model">rapidusa.rapid_driver_fees</field>-->
+<!--			<field name="arch" type="xml">-->
+<!--				<search>-->
+<!--					<field name="transfer_from"/>-->
+<!--					<field name="route_name"/>-->
+<!--				</search>-->
+<!--			</field>-->
+<!--		</record>-->
+
+		<record id="rapid_car_filter" model="ir.ui.view">
+			<field name="name">rapid_car</field>
+			<field name="model">rapidusa.rapid_car</field>
+			<field name="arch" type="xml">
+				<search>
+					<field name="driver_id"/>
+					<field name="chapa"/>
+					<group expand="0" string="Group By">
+						<filter name="group_transfer" string="Tranfer ID" context="{'group_by':'rapiddriver_id'}"/>
+					</group>
+				</search>
+			</field>
+		</record>
+
+<!--		KANBAN VIEW-->
+		<record id="rapid_driver_external_kanban_view" model="ir.ui.view">
+			<field name="name">Vehicles Transfer</field>
+			<field name="model">rapidusa.rapid_driver</field>
+			<field name="arch" type="xml">
+				<kanban  default_order="cr_date desc">
+					<templates>
+						<t t-name="kanban-box">
+							<div class="oe_kanban_card">
+								<div class="oe_kanban_content">
+									<div>
+										<h4>
+											<a type="open">
+												Id:
+												<field name="transfer_id"/><br/>
+												Route:
+												<field name="route_id"/><br/>
+											</a>
+										</h4>
+									</div>
+									<div>
+										<h4>
+											Date:
+											<field name="cr_date"/><br/>
+										</h4>
+									</div>
+									<div class="oe_kanban_bottom_right"> <br/>
+										<field name="status" widget="statusbar"/>
+									</div><br/>
+									<div class="oe_kanban_footer_left">
+										<h4> Fee:
+											<field name="fees_related"/> <br/>
+										</h4>
+									</div>
+								</div>
+							</div>
+			  			</t>
+			  		</templates>
+			  </kanban>
+			</field>
+		</record>
+
+
+		READONLY MODIF
+		<record id="rapid_driver_readonly_modify" model="ir.ui.view">
+            <field name="name">rapid_driver_readonly</field>
+            <field name="model">rapidusa.rapid_driver</field>
+            <field name="inherit_id" ref="rapid_driver_form" />
+            <field name="groups_id" eval="[(6, 0, [ref('rapid_driver_readonly') ])]" />
+            <field name="arch" type="xml">
+                <field name="cr_date" position="attributes">
+                   <attribute name="readonly">1</attribute>
+                </field>
+				<field name="date_billed" position="attributes">
+                   <attribute name="readonly">1</attribute>
+                </field>
+				<field name="date_paid" position="attributes">
+                   <attribute name="readonly">1</attribute>
+                </field>
+            </field>
+		</record>
+<!--		PIVOT VIEW-->
+		<record id="view_driver_pivot" model="ir.ui.view">
+            <field name="name">rapid.driver.pivot</field>
+            <field name="model">rapidusa.rapid_driver</field>
+            <field name="arch" type="xml">
+                <pivot string="Billing Status">
+                    <field name="acc_status" type="row"/>
+					<field name="dispatcher_id" type = "col"/>
+                    <field name="fees_related" type="measure"/>
+                </pivot>
+            </field>
+        </record>
+	</data>
+</odoo>

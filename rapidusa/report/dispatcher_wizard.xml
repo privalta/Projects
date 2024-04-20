@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record model="ir.actions.act_window" id="dispatcher_wizard_action">
+            <field name="name">Dispatcher</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">rapidusa.dispatcher_wizard</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+
+        <record id="dispatcher_wizard_form" model="ir.ui.view">
+            <field name="name">dispatcher</field>
+            <field name="model">rapidusa.dispatcher_wizard</field>
+            <field name="arch" type="xml">
+                <form string="Dispatcher Report">
+
+                    <group>
+                        <field name="start"/>
+                        <field name="end"/>
+                        <field name="dispatcher"/>
+                        <field name="details"/>
+                    </group>
+
+                    <footer>
+                        <button name="action_print" type="object" string="Ver" class="oe_highlight"/>
+                        <button special="cancel" string="Cancelar"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+</odoo>
