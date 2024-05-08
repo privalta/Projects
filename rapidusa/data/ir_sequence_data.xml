@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+
+        <record id="seq_rapid_driver" model="ir.sequence">
+		   <field name="name">Vehicles Moved Sequence</field>
+		   <field name="code">rapid_driver</field>
+		   <field name="prefix">VM-</field>
+		   <field name="padding">4</field>
+		   <field name="company_id" eval="False"/>
+	   </record>
+
+		<record id="seq_invoice" model="ir.sequence">
+		   <field name="name">Invoice Sequence</field>
+		   <field name="code">invoice</field>
+		   <field name="prefix">INV-</field>
+		   <field name="padding">4</field>
+		   <field name="company_id" eval="False"/>
+	   </record>
+    </data>
+</odoo>

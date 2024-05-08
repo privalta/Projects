@@ -6,6 +6,7 @@
     "data": [
         "security/security.xml",
         "security/ir.model.access.csv",
+        "data/ir_sequence_data.xml",
         "data/route_fees_data.xml",
         "view/views.xml",
         "report/rapid_driver_report.xml",
