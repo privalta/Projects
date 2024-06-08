@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <!-- Salary Rule -->
+        <record id="hr_rule_role_driver" model="hr.salary.rule">
+            <field name="name">Driver</field>
+            <field name="sequence" eval="100" />
+            <field name="code">Driver</field>
+            <field name="category_id" ref="payroll.NET" />
+            <field name="condition_select">python</field>
+            <field name="condition_python">result = worked_days.Driver</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result = worked_days.Driver.number_of_hours * 12</field>
+        </record>
+
+        <record id="hr_rule_role_lead_driver" model="hr.salary.rule">
+            <field name="name">Lead Driver</field>
+            <field name="sequence" eval="100" />
+            <field name="code">Lead_Driver</field>
+            <field name="category_id" ref="payroll.NET" />
+            <field name="condition_select">python</field>
+            <field name="condition_python">result = worked_days.Lead_Driver</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result = worked_days.Lead_Driver.number_of_hours * 14</field>
+        </record>
+        
+        <record id="hr_rule_role_regular_driver" model="hr.salary.rule">
+            <field name="name">Regular Driver</field>
+            <field name="sequence" eval="100" />
+            <field name="code">Regular_Driver</field>
+            <field name="category_id" ref="payroll.NET" />
+            <field name="condition_select">python</field>
+            <field name="condition_python">result = worked_days.Regular_Driver</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result = worked_days.Regular_Driver.number_of_hours * 12</field>
+        </record>
+        
+        <record id="hr_rule_role_senior_driver" model="hr.salary.rule">
+            <field name="name">Senior Driver</field>
+            <field name="sequence" eval="100" />
+            <field name="code">Senior_Driver</field>
+            <field name="category_id" ref="payroll.NET" />
+            <field name="condition_select">python</field>
+            <field name="condition_python">result = worked_days.Senior_Driver</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result = worked_days.Senior_Driver.number_of_hours * 12</field>
+        </record>
+         
+        <record id="hr_rule_role_lead_clean" model="hr.salary.rule">
+            <field name="name">Lead Clean</field>
+            <field name="sequence" eval="100" />
+            <field name="code">Lead_Clean</field>
+            <field name="category_id" ref="payroll.NET" />
+            <field name="condition_select">python</field>
+            <field name="condition_python">result = inputs.Lead_Clean</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result = inputs.Lead_Clean.amount_qty * 30</field>
+        </record>
+        
+        <record id="hr_rule_role_assistant" model="hr.salary.rule">
+            <field name="name">Assistant</field>
+            <field name="sequence" eval="100" />
+            <field name="code">Assistant</field>
+            <field name="category_id" ref="payroll.NET" />
+            <field name="condition_select">python</field>
+            <field name="condition_python">result = worked_days.Assistant</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result = worked_days.Assistant.number_of_hours * 15</field>
+        </record>
+
+    </data>
+</odoo>

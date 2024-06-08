@@ -91,7 +91,26 @@
 			parent="rapidusa_nomencladores_menu"
             action="rapidusa.dispatch_action"
 			sequence="20"/>
+
+		<menuitem
+			id="rapidusa_worker_role"
+			name="Worker Role"
+			parent="rapidusa_nomencladores_menu"
+            action="rapidusa_worker_role_action"
+			sequence="30"/>
+
+		<menuitem
+			id="rapidusa_reason_cleaning"
+			name="Reason for Cleaning"
+			parent="rapidusa_nomencladores_menu"
+            action="rapidusa_reason_cleaning_action"
+			sequence="40"/>
+
+		<menuitem
+			id="rapidusa_service_fees"
+			name="Service Fees"
+			parent="rapidusa_nomencladores_menu"
+            action="rapidusa_service_fees_action"
+			sequence="50"/>
     </data>
 </odoo>
-
-

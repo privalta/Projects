@@ -37,3 +37,12 @@ rapid_driver_user_driver,rapidusa.rapid_driver.user_driver,model_rapidusa_rapid_
 rapid_driver_fees_user_driver,rapidusa.rapid_driver_fees.user_driver,model_rapidusa_rapid_driver_fees,rapid_driver_driver,1,0,0,0
 destino_user_driver,rapidusa.destino.user_driver,model_rapidusa_destino,rapid_driver_driver,0,0,0,0
 
+workers_user,rapidusa.workers.user,model_rapidusa_workers,rapid_driver_manager,1,1,1,1
+workers_user_external,rapidusa.workers.user_external,model_rapidusa_workers,rapid_driver_external,1,1,1,1
+worker_role_user,rapidusa.worker_role.user,model_rapidusa_worker_role,rapid_driver_manager,1,1,1,1
+worker_role_user_external,rapidusa.worker_role.user_external,model_rapidusa_worker_role,rapid_driver_external,1,1,1,1
+reason_cleaning_user,rapidusa.reason_cleaning.user,model_rapidusa_reason_cleaning,rapid_driver_manager,1,1,1,1
+reason_cleaning_user_external,rapidusa.reason_cleaning.user_external,model_rapidusa_reason_cleaning,rapid_driver_external,1,1,1,1
+service_fees_user,rapidusa.service_fees.user,model_rapidusa_service_fees,rapid_driver_manager,1,1,1,1
+service_fees_user_external,rapidusa.service_fees.user_external,model_rapidusa_service_fees,rapid_driver_external,1,1,1,1
+

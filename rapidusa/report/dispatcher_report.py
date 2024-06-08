@@ -8,6 +8,7 @@ from odoo.tools import DEFAULT_SERVER_DATE_FORMAT as DATE_FORMAT
 
 class ReportDispatcher(models.AbstractModel):
     _name = "report.rapidusa.dispatcher"
+    _description = "Report Dispatcher"
 
     @api.model
     def _get_report_values(self, docsids, data=None):

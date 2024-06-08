@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+
+        <record id="driver" model="rapidusa.worker_role">
+            <field name="name">Driver</field>
+        </record>
+
+        <record id="lead_driver" model="rapidusa.worker_role">
+            <field name="name">Lead Driver</field>
+        </record>
+
+        <record id="regular_driver" model="rapidusa.worker_role">
+            <field name="name">Regular Driver</field>
+        </record>
+
+        <record id="senior_driver" model="rapidusa.worker_role">
+            <field name="name">Senior Driver</field>
+        </record>
+
+        <record id="lead_clean" model="rapidusa.worker_role">
+            <field name="name">Lead Clean</field>
+        </record>
+
+        <record id="assistant" model="rapidusa.worker_role">
+            <field name="name">Assistant</field>
+        </record>
+
+    </data>
+</odoo>

@@ -9,6 +9,7 @@ from odoo.tools import DEFAULT_SERVER_DATE_FORMAT as DATE_FORMAT
 
 class ReportInvoice(models.AbstractModel):
     _name = "report.rapidusa.invoice"
+    _description = "Report Invoice"
 
     @api.model
     def _get_report_values(self, docsids, data=None):
@@ -31,7 +32,7 @@ class ReportInvoice(models.AbstractModel):
             due_date_str = str(due_date.month) + "-" + str(due_date.day) + "-" + str(due_date.year)
 
             j = {
-                "transfer_id": i.transfer_id,
+                "transfer": i.transfer,
                 "dispatcher": i.dispatcher_id.name,
                 "route": i.route_id.route_name,
                 "cars_total": i.cars_total,

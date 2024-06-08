@@ -69,7 +69,7 @@
                                 <tbody>
                                     <tr>
                                         <td>
-                                            <t t-esc="i['transfer_id']"/>
+                                            <t t-esc="i['transfer']"/>
                                         </td>
                                         <td>
                                             <t t-esc="i['route']"/>
@@ -128,7 +128,7 @@
                                     <tbody>
                                         <tr>
                                             <td>
-                                                <t t-esc="i['transfer_id']"/>
+                                                <t t-esc="i['transfer']"/>
                                             </td>
                                             <td>
                                                 <t t-esc="i['date_inv']"/>

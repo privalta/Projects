@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+
+        <!-- Expensable products -->
+        <record id="service_vehicle_transfers" model="product.product">
+            <field name="name">Vehicle Transfers</field>
+            <field name="list_price">0</field>
+            <field name="standard_price">0</field>
+            <field name="type">service</field>
+            <field name="default_code">VEH_T</field>
+            <field name="categ_id" ref="product.cat_expense"/>
+        </record>
+
+        <record id="service_car_wash_special_cleaner" model="product.product">
+            <field name="name">Car Wash (Special Cleaner)</field>
+            <field name="list_price">0</field>
+            <field name="standard_price">0</field>
+            <field name="type">service</field>
+            <field name="default_code">CW_SC</field>
+            <field name="categ_id" ref="product.cat_expense"/>
+        </record>
+
+        <record id="service_car_wash_regular_cleaner" model="product.product">
+            <field name="name">Car Wash (Regular Cleaner)</field>
+            <field name="list_price">0</field>
+            <field name="standard_price">0</field>
+            <field name="type">service</field>
+            <field name="default_code">CW_RC</field>
+            <field name="categ_id" ref="product.cat_expense"/>
+        </record>
+
+        <record id="service_drive_allocation" model="product.product">
+            <field name="name">Drive Allocation</field>
+            <field name="list_price">0</field>
+            <field name="standard_price">0</field>
+            <field name="type">service</field>
+            <field name="default_code">DR_A</field>
+            <field name="categ_id" ref="product.cat_expense"/>
+        </record>
+
+
+    </data>
+</odoo>

@@ -8,6 +8,7 @@ from odoo.tools import DEFAULT_SERVER_DATE_FORMAT as DATE_FORMAT
 
 class ReportRapidDriver(models.AbstractModel):
     _name = "report.rapidusa.rapid_driver"
+    _description = "Report Rapid Driver"
 
     @api.model
     def _get_report_values(self, docsids, data=None):
