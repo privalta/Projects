@@ -20,7 +20,7 @@
             <field name="name">Transport Records</field>
             <field name="res_model">rapidusa.rapid_driver</field>
             <field name="context">{'search_default_today':1}</field>
-            <field name="view_mode">kanban,form,tree,pivot</field>
+            <field name="view_mode">kanban,form,tree,pivot,graph</field>
         </record>
 
         <record model="ir.actions.server" id="do_status_bill">
@@ -71,6 +71,7 @@
                         <button name="do_check_out" type="object" string="Check Out" class="oe_right oe_highlight"/>
                     </header>
                     <sheet>
+                        <field name="name" invisible="1"/>
                         <notebook>
                             <page string="Attendance">
                                 <group>
@@ -688,6 +689,19 @@
             <field name="res_model">rapidusa.service_fees</field>
             <field name="view_mode">tree,form</field>
         </record>
+ 
+        <!--		GRAPH VIEWS-->
+        <record id="rapidusa_rapid_driver_name_view_graph" model="ir.ui.view">
+            <field name="name">rapidusa_rapid_driver_name_view_graph</field>
+            <field name="model">rapidusa.rapid_driver</field>
+            <field name="arch" type="xml">
+                <graph string="Transport Records"> 
+                    <field name="customer_id" type="row"/>
+                    <field name="car_service_id" type="row"/>
+                    <field name="fees_related" type="measure" />                                          
+                </graph>
+            </field>
+        </record> 
 
     </data>
 </odoo>

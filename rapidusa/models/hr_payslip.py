@@ -8,6 +8,8 @@ class HrPayslip(models.Model):
 
     def compute_sheet(self):
         for payslip in self:
+            payslip.worked_days_line_ids.unlink()
+            payslip.input_line_ids.unlink()
             drivers = self.env["rapidusa.rapid_driver"].search(
                 [
                     ("acc_status", "=", "Paid"),
@@ -16,8 +18,6 @@ class HrPayslip(models.Model):
                     ("workers_ids.employee_id", "=", payslip.employee_id.id),
                 ]
             )
-            payslip.worked_days_line_ids.unlink()
-            payslip.input_line_ids.unlink()
             service = {
                 "vehicle_transfers": "Vehicle Transfers",
                 "car_wash_special_cleaner": "Car Wash (Special Cleaner)",
@@ -53,5 +53,25 @@ class HrPayslip(models.Model):
                                     "contract_id": j.employee_id.contract_id.id,
                                 }
                             )
+            attendances = self.env["rapidusa.attendances"].search(
+                [
+                    ("cr_date", ">=", payslip.date_from.strftime(DF)),
+                    ("cr_date", "<=", payslip.date_to.strftime(DF)),
+                ]
+            )
+            for j in attendances:
+                for employee in j.employees_id:
+                    if payslip.employee_id.id == employee.id:
+                        self.env["hr.payslip.worked_days"].create(
+                            {
+                                "name": "Attendances",
+                                "payslip_id": payslip.id,
+                                "sequence": 1,
+                                "number_of_hours": j.worked_hours,
+                                "code": "Attendances",
+                                "number_of_days": 0,
+                                "contract_id": employee.contract_id.id,
+                            }
+                        )
             super(HrPayslip, payslip).compute_sheet()
         return True

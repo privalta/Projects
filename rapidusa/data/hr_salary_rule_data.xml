@@ -67,6 +67,17 @@
             <field name="amount_select">code</field>
             <field name="amount_python_compute">result = worked_days.Assistant.number_of_hours * 15</field>
         </record>
+        
+        <record id="hr_rule_role_attendances" model="hr.salary.rule">
+            <field name="name">Attendances</field>
+            <field name="sequence" eval="100" />
+            <field name="code">Attendances</field>
+            <field name="category_id" ref="payroll.NET" />
+            <field name="condition_select">python</field>
+            <field name="condition_python">result = worked_days.Attendances</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result = worked_days.Attendances.number_of_hours * 1</field>
+        </record>
 
     </data>
 </odoo>

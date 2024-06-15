@@ -6,15 +6,12 @@
         <field name="report_type">qweb-html</field>
         <field name="report_name">rapidusa.invoice</field>
         <field name="print_report_name">'Rapid Usa Invoice'</field>
-
     </record>
-
     <template id="invoice">
         <t t-call="web.html_container">
-<!--            <t t-call="web.external_layout">-->
+            <t t-call="web.external_layout">
                 <t t-foreach="docs" t-as="invoice_no">
                     <t t-foreach="docs[invoice_no]" t-as="i">
-
                         <div class="page">
                             <head>
                                 <style>
@@ -36,15 +33,15 @@
                                             <div>
                                                 <p>
                                                     <b>Invoice Date:</b>
-                                                        <t t-esc="i['date_inv']"/>
+                                                    <t t-esc="i['date_inv']"/>
                                                 </p>
                                                 <p>
                                                     <b>Due Date:</b>
-                                                        <t t-esc="i['due_date']"/>
+                                                    <t t-esc="i['due_date']"/>
                                                 </p>
                                                 <p>
                                                     <b>Invoice Number:</b>
-                                                        <t t-esc="invoice_no"/>
+                                                    <t t-esc="invoice_no"/>
                                                 </p>
                                                 <p>
                                                     <b>Reference:</b>
@@ -93,7 +90,9 @@
                                             <p>Total</p>
                                         </td>
                                         <td>
-                                            <p>$<t t-esc="i['fees']"/></p>
+                                            <p>$
+                                                <t t-esc="i['fees']"/>
+                                            </p>
                                         </td>
                                     </tr>
                                 </tbody>
@@ -112,8 +111,14 @@
                                     </style>
                                 </head>
                                 <div>
-                                    <h6> <b>Date:</b> <t t-esc="i['date_inv']" /></h6>
-                                    <h6> <b>Invoice Number:</b> <t t-esc="invoice_no"/> </h6>
+                                    <h6>
+                                        <b>Date:</b>
+                                        <t t-esc="i['date_inv']" />
+                                    </h6>
+                                    <h6>
+                                        <b>Invoice Number:</b>
+                                        <t t-esc="invoice_no"/>
+                                    </h6>
                                 </div>
                                 <table class="table table-bordered">
                                     <tr style="background-color:gray">
@@ -175,12 +180,10 @@
                                 </table>
                             </div>
                             <p style="page-break-before:always;"/>
-
                         </t>
                     </t>
                 </t>
-<!--            </t>-->
+            </t>
         </t>
-
     </template>
 </odoo>

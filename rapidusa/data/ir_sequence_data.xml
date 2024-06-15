@@ -17,5 +17,14 @@
 		   <field name="padding">4</field>
 		   <field name="company_id" eval="False"/>
 	   </record>
+
+	   <record id="seq_attendances" model="ir.sequence">
+			<field name="name">Attendances Sequence</field>
+			<field name="code">attendances</field>
+			<field name="prefix">AT-</field>
+			<field name="padding">4</field>
+			<field name="company_id" eval="False"/>
+		</record>
+
     </data>
 </odoo>

@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!--    RAPID DRIVER REPORT-->
+    <record id="action_report_invoice_rapid_usa" model="ir.actions.report">
+        <field name="name">Invoices RapidUSA PDF</field>
+        <field name="model">account.move</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">rapidusa.report_invoice_rapid_usa</field>
+        <field name="report_file">rapidusa.report_invoice_rapid_usa</field>
+        <field name="print_report_name">'Invoice - %s' % (object.id)</field>
+        <field name="binding_model_id" ref="model_account_move"/>
+        <field name="binding_type">report</field>
+    </record>
+    <template id="report_invoice_rapid_usa">
+        <t t-call="web.html_container">
+            <t t-call="web.external_layout">
+                <t t-foreach="docs" t-as="i">
+                    <div class="page">
+                        <head>
+                            <style>
+                            div{
+                            word-spacing: 1.5px;
+                            font-family: Arial, Helvetica, sans-serif;
+                            font-size: 12px;
+                            }
+                        </style>
+                            <div class="table">
+                                <table>
+                                    <td>
+                                        <p>Sixt Rent A Car, LLC</p>
+                                        <p>1501 NW 49th St Suite 100</p>
+                                        <p>FT LAUDERDALE FL 33309</p>
+                                        <p>BROWARD</p>
+                                    </td>
+                                    <td>
+                                        <div>
+                                            <p>
+                                                <b>Invoice Date:</b>
+                                                <t t-esc="i.invoice_date"/>
+                                            </p>
+                                            <p>
+                                                <b>Due Date:</b>
+                                                <t t-esc="i.invoice_date_due"/>
+                                            </p>
+                                            <p>
+                                                <b>Invoice Number:</b>
+                                                <t t-esc="i.name"/>
+                                            </p>
+                                            <p>
+                                                <b>Reference:</b>
+                                            Vendor 81016364
+                                            </p>
+                                        </div>
+                                    </td>
+                                </table>
+                            </div>
+                        </head>
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr style="background-color:gray">
+                                    <th>Id</th>
+                                    <th>Description</th>
+                                    <th>Dispatched</th>
+                                    <th>Quantity</th>
+                                    <th>Unit Price</th>
+                                    <th>Amount USD</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <t t-if="i.rapid_driver_id">
+                                            <t t-esc="i.rapid_driver_id.transfer"/>
+                                    </t>
+                                    </td>
+                                    <td>
+                                        <t t-if="i.rapid_driver_id">
+                                            <t t-if="i.rapid_driver_id.route_id">
+                                                <t t-esc="i.rapid_driver_id.route_id.route_name"/>
+                                        </t>
+                                        </t>
+                                    </td>
+                                    <td>
+                                        <t t-if="i.rapid_driver_id">
+                                            <t t-if="i.rapid_driver_id.dispatcher_id">
+                                                <t t-esc="i.rapid_driver_id.dispatcher_id.name"/>
+                                        </t>
+                                        </t>
+                                    </td>
+                                    <td>
+                                        <t t-if="i.rapid_driver_id">
+                                            <t t-esc="i.rapid_driver_id.cars_total"/>
+                                    </t>
+                                    </td>
+                                    <td>
+                                        <t t-if="i.rapid_driver_id">
+                                            <t t-if="i.rapid_driver_id.car_service_id == 'vehicle_transfers'">
+                                                <t t-if="i.rapid_driver_id.route_id">
+                                                    <t t-esc="i.rapid_driver_id.route_id.fee"/>
+                                            </t>
+                                            </t>
+                                            <t t-else="">
+                                                <t t-if="i.rapid_driver_id.fees_service_id">
+                                                    <t t-esc="i.rapid_driver_id.fees_service_id.fee"/>
+                                            </t>
+                                            </t>
+                                        </t>
+                                    </td>
+                                    <td>
+                                        <t t-if="i.rapid_driver_id">
+                                            <t t-esc="i.rapid_driver_id.fees_related"/>
+                                    </t>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="4"/>
+                                    <td>
+                                        <p>Total</p>
+                                    </td>
+                                    <td>
+                                        <p>$
+                                            <t t-if="i.rapid_driver_id">
+                                                <t t-esc="i.rapid_driver_id.fees_related"/>
+                                        </t>
+                                        </p>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <p style="page-break-before:always;"/>
+                    <div class="page">
+                        <head>
+                            <style>
+                                div{
+                                word-spacing: 1.5px;
+                                font-family: Arial, Helvetica, sans-serif;
+                                font-size: 12px;
+                                }
+                            </style>
+                        </head>
+                        <div>
+                            <h6>
+                                <b>Date:</b>
+                                <t t-esc="i.invoice_date"/>
+                            </h6>
+                            <h6>
+                                <b>Invoice Number:</b>
+                                <t t-esc="i.payment_reference"/>
+                            </h6>
+                        </div>
+                        <table class="table table-bordered">
+                            <tr style="background-color:gray">
+                                <th>ID</th>
+                                <th>Date:</th>
+                                <th>Route:</th>
+                                <th>Dispatcher</th>
+                                <th>Quantity:</th>
+                                <th>Unit Price:</th>
+                                <th>Amount USD:</th>
+                            </tr>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <t t-if="i.rapid_driver_id">
+                                            <t t-esc="i.rapid_driver_id.transfer"/>
+                                        </t>
+                                    </td>
+                                    <td>
+                                        <t t-if="i.rapid_driver_id">
+                                            <t t-esc="i.rapid_driver_id.cr_date"/>
+                                    </t>
+                                    </td>
+                                    <td>
+                                        <t t-if="i.rapid_driver_id">
+                                            <t t-if="i.rapid_driver_id.route_id">
+                                                <t t-esc="i.rapid_driver_id.route_id.route_name"/>
+                                            </t>
+                                        </t>
+                                    </td>
+                                    <td>
+                                        <t t-if="i.rapid_driver_id">
+                                            <t t-if="i.rapid_driver_id.dispatcher_id">
+                                                <t t-esc="i.rapid_driver_id.dispatcher_id.name"/>
+                                            </t>
+                                        </t>
+                                    </td>
+                                    <td>
+                                        <t t-if="i.rapid_driver_id">
+                                            <t t-esc="i.rapid_driver_id.cars_total"/>
+                                    </t>
+                                    </td>
+                                    <td>
+                                        <t t-if="i.rapid_driver_id">
+                                            <t t-if="i.rapid_driver_id.car_service_id == 'vehicle_transfers'">
+                                                <t t-if="i.rapid_driver_id.route_id">
+                                                    <t t-esc="i.rapid_driver_id.route_id.fee"/>
+                                                </t>
+                                            </t>
+                                            <t t-else="">
+                                                <t t-if="i.rapid_driver_id.fees_service_id">
+                                                    <t t-esc="i.rapid_driver_id.fees_service_id.fee"/>
+                                                </t>
+                                            </t>
+                                        </t>
+                                    </td>
+                                    <td>
+                                        <t t-if="i.rapid_driver_id">
+                                            <t t-esc="i.rapid_driver_id.fees_related"/>
+                                        </t>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <p>PLATES NUMBER</p>
+                                    </td>
+                                    <td colspan="6" style="background-color:white">
+                                        <t t-foreach="i.rapid_driver_id.rapidcar_ids" t-as="c">
+                                            <t t-esc="c.chapa"/>
+                                            </t>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td/>
+                                    <td colspan="6" style="padding: 0px;margin: 0px;">
+                                        <t t-foreach="i.rapid_driver_id.rapidcar_ids" t-as="c">
+                                            <img t-attf-src="data:image/jpg;base64,{{ c.chapa_foto }}"
+                                                 style="object-fit: cover;height:50px;"/>
+                                        </t>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="6" style="background-color:#c8c8c8"/>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <p style="page-break-before:always;"/>
+                </t>
+            </t>
+        </t>
+    </template>
+</odoo>

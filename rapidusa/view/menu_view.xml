@@ -41,6 +41,12 @@
 			action="driver_hours_wizard_action"
 			sequence="30"/>
 
+		<menuitem
+			id="invoice_no_billed_report"
+			name="Invoice no Billed"
+			parent="rapidusa_report_menu"
+			action="invoice_no_billed_wizard_action"
+			sequence="30"/>
 
 		<menuitem
 			id="rapidusa_invoice_report"

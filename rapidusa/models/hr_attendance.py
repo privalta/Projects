@@ -10,12 +10,13 @@ class HrAttendance(models.Model):
     _name = "rapidusa.attendances"
     _description = "Attendances"
 
+    name = fields.Char("Name")
     employees_id = fields.Many2many("hr.employee", string="Employees")
     cr_date = fields.Date("Create Date", default=lambda self: datetime.now(pytz.timezone("US/Eastern")))
     check_in = fields.Datetime(string="Check In", default=lambda self: datetime.today(), required=True)
     check_out = fields.Datetime(string="Check Out")
     worked_hours = fields.Float(string="Worked Hours", compute="_compute_worked_hours", store=True, readonly=True)
-    workers = fields.Integer("Employees", compute="_compute_workers")
+    workers = fields.Integer("Total Employees", compute="_compute_workers")
 
     @api.depends("employees_id", "workers")
     def _compute_workers(self):
@@ -48,3 +49,9 @@ class HrAttendance(models.Model):
             if attendance.check_in and attendance.check_out:
                 if attendance.check_out < attendance.check_in:
                     raise exceptions.ValidationError(_('"Check Out" time cannot be earlier than "Check In" time.'))
+
+    @api.model
+    def create(self, vals):
+        if vals.get("name", "New") == "New":
+            vals["name"] = self.env["ir.sequence"].next_by_code("attendances") or "New"
+        return super(HrAttendance, self).create(vals)
