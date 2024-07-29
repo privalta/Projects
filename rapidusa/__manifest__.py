@@ -33,5 +33,5 @@
     "installable": True,
     "auto_install": False,
     "application": True,
-    "depends": ["base", "hr", "payroll_account"],
+    "depends": ["base", "hr", "payroll_account", "l10n_generic_coa"],
 }
