@@ -6,7 +6,7 @@
             <field name="name">Driver</field>
             <field name="sequence" eval="100" />
             <field name="code">Driver</field>
-            <field name="category_id" ref="payroll.NET" />
+            <!-- <field name="category_id" ref="payroll.NET" /> -->
             <field name="condition_select">python</field>
             <field name="condition_python">result = worked_days.Driver</field>
             <field name="amount_select">code</field>
@@ -17,7 +17,7 @@
             <field name="name">Lead Driver</field>
             <field name="sequence" eval="100" />
             <field name="code">Lead_Driver</field>
-            <field name="category_id" ref="payroll.NET" />
+            <!-- <field name="category_id" ref="payroll.NET" /> -->
             <field name="condition_select">python</field>
             <field name="condition_python">result = worked_days.Lead_Driver</field>
             <field name="amount_select">code</field>
@@ -28,7 +28,7 @@
             <field name="name">Regular Driver</field>
             <field name="sequence" eval="100" />
             <field name="code">Regular_Driver</field>
-            <field name="category_id" ref="payroll.NET" />
+            <!-- <field name="category_id" ref="payroll.NET" /> -->
             <field name="condition_select">python</field>
             <field name="condition_python">result = worked_days.Regular_Driver</field>
             <field name="amount_select">code</field>
@@ -39,7 +39,7 @@
             <field name="name">Senior Driver</field>
             <field name="sequence" eval="100" />
             <field name="code">Senior_Driver</field>
-            <field name="category_id" ref="payroll.NET" />
+            <!-- <field name="category_id" ref="payroll.NET" /> -->
             <field name="condition_select">python</field>
             <field name="condition_python">result = worked_days.Senior_Driver</field>
             <field name="amount_select">code</field>
@@ -50,7 +50,7 @@
             <field name="name">Lead Clean</field>
             <field name="sequence" eval="100" />
             <field name="code">Lead_Clean</field>
-            <field name="category_id" ref="payroll.NET" />
+            <!-- <field name="category_id" ref="payroll.NET" /> -->
             <field name="condition_select">python</field>
             <field name="condition_python">result = inputs.Lead_Clean</field>
             <field name="amount_select">code</field>
@@ -61,7 +61,7 @@
             <field name="name">Assistant</field>
             <field name="sequence" eval="100" />
             <field name="code">Assistant</field>
-            <field name="category_id" ref="payroll.NET" />
+            <!-- <field name="category_id" ref="payroll.NET" /> -->
             <field name="condition_select">python</field>
             <field name="condition_python">result = worked_days.Assistant</field>
             <field name="amount_select">code</field>
@@ -72,7 +72,7 @@
             <field name="name">Attendances</field>
             <field name="sequence" eval="100" />
             <field name="code">Attendances</field>
-            <field name="category_id" ref="payroll.NET" />
+            <!-- <field name="category_id" ref="payroll.NET" /> -->
             <field name="condition_select">python</field>
             <field name="condition_python">result = worked_days.Attendances</field>
             <field name="amount_select">code</field>
