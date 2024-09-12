@@ -11,20 +11,28 @@ class HrAttendance(models.Model):
     _description = "Attendances"
 
     name = fields.Char("Name")
-    employees_id = fields.Many2many("hr.employee", string="Employees")
+    # employees_id = fields.Many2many("hr.employee", string="Employees")
     cr_date = fields.Date("Create Date", default=lambda self: datetime.now(pytz.timezone("US/Eastern")))
     check_in = fields.Datetime(string="Check In", default=lambda self: datetime.today(), required=True)
     check_out = fields.Datetime(string="Check Out")
     worked_hours = fields.Float(string="Worked Hours", compute="_compute_worked_hours", store=True, readonly=True)
-    workers = fields.Integer("Total Employees", compute="_compute_workers")
+    # workers = fields.Integer("Total Employees", compute="_compute_workers")
+    workers_ids = fields.One2many("rapidusa.workers", "rapid_attendances_id")
+    workers_total = fields.Integer("Workers Total", compute="_compute_workers_total", store=True)
+    car_count = fields.Integer(string="Car Count")
 
-    @api.depends("employees_id", "workers")
-    def _compute_workers(self):
-        total = 0
+    @api.depends("workers_ids")
+    def _compute_workers_total(self):
         for i in self:
-            for j in i.employees_id:
-                total += 1
-            i.workers = total
+            i.workers_total = len(i.workers_ids)
+
+    # @api.depends("employees_id", "workers")
+    # def _compute_workers(self):
+    #     total = 0
+    #     for i in self:
+    #         for j in i.employees_id:
+    #             total += 1
+    #         i.workers = total
 
     def do_check_out(self):
         for i in self:
@@ -51,7 +59,7 @@ class HrAttendance(models.Model):
                     raise exceptions.ValidationError(_('"Check Out" time cannot be earlier than "Check In" time.'))
 
     @api.model
-    def create(self, vals):
-        if vals.get("name", "New") == "New":
-            vals["name"] = self.env["ir.sequence"].next_by_code("attendances") or "New"
-        return super(HrAttendance, self).create(vals)
+    def create(self, vals_list):
+        seq = self.env["ir.sequence"].next_by_code("attendances") or "/"
+        vals_list["name"] = seq
+        return super(HrAttendance, self).create(vals_list)

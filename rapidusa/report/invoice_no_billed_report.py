@@ -12,7 +12,7 @@ class ReportInvoiceNoBilled(models.AbstractModel):
     _description = "Report Invoice no Billed"
 
     @api.model
-    def _get_report_values(self, docsids, data=None):
+    def _get_report_values(self, docsids, data={}):
         start_date = datetime.strptime(str(data["form"]["date_start"]), DATE_FORMAT)
         end_date = datetime.strptime(str(data["form"]["date_end"]), DATE_FORMAT)
         detail = data["form"]["detail"]

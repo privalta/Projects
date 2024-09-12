@@ -1,122 +1,45 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <odoo>
-    <data>
-        <menuitem
-			id="rapidusa_general_menu"
-			name="Rapid USA"
-			sequence="0"
-			web_icon="rapidusa,static/src/img/icon.png"/>
+	<data>
+		<menuitem id="rapidusa_general_menu" name="Rapid USA" sequence="0" web_icon="rapidusa,static/src/img/icon.png"/>
 
-		<menuitem
-			id ="rapidusa_report_menu"
-			name="Reporting"
-			parent="rapidusa_general_menu"
-			sequence="70"/>
+		<menuitem id ="rapidusa_report_menu" name="Reporting" parent="rapidusa_general_menu" sequence="70"/>
+		
+		<menuitem id="rapidusa_cars" name="Vehicle Logs" parent="rapidusa_general_menu" action="rapidusa.rapid_car_action" groups="rapid_driver_readonly" sequence="12"/>
 
-        <menuitem
-			id="rapidusa_nomencladores_menu"
-			name="Configuration"
-            parent="rapidusa_general_menu"
-			groups="rapid_driver_manager"
-			sequence="90"/>
+		<menuitem id="rapidusa_nomencladores_menu" name="Configuration" parent="rapidusa_general_menu" groups="rapid_driver_manager" sequence="90"/>
 
-		<menuitem
-			id="rapidusa_vehicles_report"
-			name="Vehicle Transfers Reports"
-			parent="rapidusa_report_menu"
-			action="rapid_driver_wizard_action"
-			sequence="20"/>
+		<menuitem id="rapidusa_rapidusa_menu" name="Rapid USA" parent="rapidusa_general_menu" sequence="10"/>
+		
+		<menuitem id="rapidusa_rapid_driver" name="Transport Records" parent="rapidusa_rapidusa_menu" action="rapidusa.rapid_driver_action" sequence="15"/>
 
-		<menuitem
-			id="rapidusa_dispatcher_report"
-			name="Dispatcher's Transfer History "
-			parent="rapidusa_report_menu"
-			action="dispatcher_wizard_action"
-			sequence="30"/>
+		<menuitem id="rapidusa_attendances" name="Attendances" parent="rapidusa_rapidusa_menu" action="rapidusa.attendances_action" sequence="20"/>
+		
+		<menuitem id="rapidusa_menu_account_customer" name="Customers" parent="rapidusa_rapidusa_menu" action="account.res_partner_action_customer" sequence="25"/>
 
-		<menuitem
-			id="rapidusa_driver_hours_report"
-			name="Worked Hours"
-			parent="rapidusa_report_menu"
-			action="driver_hours_wizard_action"
-			sequence="30"/>
+		<menuitem id="rapidusa_vehicles_report" name="Vehicle Transfers Reports" parent="rapidusa_report_menu" action="rapid_driver_wizard_action" sequence="20"/>
 
-		<menuitem
-			id="invoice_no_billed_report"
-			name="Invoice no Billed"
-			parent="rapidusa_report_menu"
-			action="invoice_no_billed_wizard_action"
-			sequence="30"/>
+		<menuitem id="rapidusa_dispatcher_report" name="Dispatcher's Transfer History " parent="rapidusa_report_menu" action="dispatcher_wizard_action" sequence="30"/>
 
-		<menuitem
-			id="rapidusa_invoice_report"
-			name="Invoice"
-			parent="rapidusa_report_menu"
-			action="invoice_wizard_action"
-			sequence="10"/>
+		<menuitem id="rapidusa_driver_hours_report" name="Worked Hours" parent="rapidusa_report_menu" action="driver_hours_wizard_action" sequence="30"/>
 
-		<menuitem
-			id="rapidusa_rapid_driver"
-			name="Transport Records"
-			parent="rapidusa_general_menu"
-            action="rapidusa.rapid_driver_action"
-			sequence="10"/>
+		<menuitem id="invoice_no_billed_report" name="Invoice no Billed" parent="rapidusa_report_menu" action="invoice_no_billed_wizard_action" sequence="30"/>
 
-		<menuitem
-			id="rapidusa_attendances"
-			name="Attendances"
-			parent="rapidusa_general_menu"
-            action="rapidusa.attendances_action"
-			sequence="11"/>
+		<menuitem id="rapidusa_invoice_report" name="Invoice" parent="rapidusa_report_menu" action="invoice_wizard_action" sequence="10"/>
 
-		<menuitem
-			id="rapidusa_cars"
-			name="Vehicle Logs"
-			parent="rapidusa_general_menu"
-            action="rapidusa.rapid_car_action"
-			groups="rapid_driver_readonly"
-			sequence="12"/>
+		<menuitem id="rapidusa_rapid_driver_fees" name="Route Fees" parent="rapidusa_nomencladores_menu" action="rapidusa.rapid_driver_fees_action" sequence="20"/>
 
-        <menuitem
-			id="rapidusa_rapid_driver_fees"
-			name="Route Fees"
-			parent="rapidusa_nomencladores_menu"
-            action="rapidusa.rapid_driver_fees_action"
-			sequence="20"/>
+		<menuitem id="rapidusa_destino" name="Destination" parent="rapidusa_nomencladores_menu" action="rapidusa.destino_action" sequence="20"/>
 
-		<menuitem
-			id="rapidusa_destino"
-			name="Destination"
-			parent="rapidusa_nomencladores_menu"
-            action="rapidusa.destino_action"
-			sequence="20"/>
+		<menuitem id="rapidusa_dispatch" name="Dispatcher" parent="rapidusa_nomencladores_menu" action="rapidusa.dispatch_action" sequence="20"/>
 
-		<menuitem
-			id="rapidusa_dispatch"
-			name="Dispatcher"
-			parent="rapidusa_nomencladores_menu"
-            action="rapidusa.dispatch_action"
-			sequence="20"/>
+		<menuitem id="rapidusa_worker_role" name="Worker Role" parent="rapidusa_nomencladores_menu" action="rapidusa_worker_role_action" sequence="30"/>
 
-		<menuitem
-			id="rapidusa_worker_role"
-			name="Worker Role"
-			parent="rapidusa_nomencladores_menu"
-            action="rapidusa_worker_role_action"
-			sequence="30"/>
+		<menuitem id="rapidusa_reason_cleaning" name="Reason for Cleaning" parent="rapidusa_nomencladores_menu" action="rapidusa_reason_cleaning_action" sequence="40"/>
 
-		<menuitem
-			id="rapidusa_reason_cleaning"
-			name="Reason for Cleaning"
-			parent="rapidusa_nomencladores_menu"
-            action="rapidusa_reason_cleaning_action"
-			sequence="40"/>
+		<menuitem id="rapidusa_service_fees" name="Service Fees" parent="rapidusa_nomencladores_menu" action="rapidusa_service_fees_action" sequence="50"/>
 
-		<menuitem
-			id="rapidusa_service_fees"
-			name="Service Fees"
-			parent="rapidusa_nomencladores_menu"
-            action="rapidusa_service_fees_action"
-			sequence="50"/>
-    </data>
+		<menuitem id="rapidusa_service_fees" name="Service Fees" parent="rapidusa_nomencladores_menu" action="rapidusa_service_fees_action" sequence="50"/>
+
+	</data>
 </odoo>

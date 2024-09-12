@@ -1,4 +1,4 @@
-from odoo import _, fields, models
+from odoo import _, api, fields, models
 from odoo.tools import get_lang
 
 # from odoo.tools.misc import get_lang
@@ -8,6 +8,7 @@ class AccountMove(models.Model):
     _inherit = "account.move"
 
     rapid_driver_id = fields.Many2one("rapidusa.rapid_driver")
+    dispatcher_id = fields.Many2one("rapidusa.dispatch", "Dispatched by", required=True, default=lambda self: self.rapid_driver_id.dispatcher_id)
 
     def action_invoice_report_sent(self):
         """Open a window to compose an email, with the edi invoice template
@@ -47,3 +48,15 @@ class AccountMove(models.Model):
             "target": "new",
             "context": ctx,
         }
+
+    @api.depends("posted_before", "state", "journal_id", "date")
+    def _compute_name(self):
+        self.ensure_one()
+        for move in self:
+            super(AccountMove, move)._compute_name()
+            if move.name and move.name != "/" and move.state == "posted":
+                seq = self.env["ir.sequence"].next_by_code("inv_account_move")
+                move.name = seq
+            if move.name and move.name != "/" and move.state == "draft":
+                move.name = "Draft"
+        return

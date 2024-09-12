@@ -8,8 +8,11 @@
                 <button name="action_invoice_report_sent" type="object" string="Send report Rapid USA" attrs="{'invisible':['|', ('state', '!=', 'posted'), ('move_type', 'not in', ('out_invoice', 'out_refund'))]}" groups="account.group_account_invoice"/>
             </header>
             <field name="country_code" position="after">
-                <field name="rapid_driver_id" invisible="1" /> 
+                <field name="rapid_driver_id" invisible="1" />
             </field>
+            <field name="payment_reference" position="after">
+                <field name="dispatcher_id"/>
+            </field>            
         </field>
     </record>
 </odoo>

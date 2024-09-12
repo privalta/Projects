@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, timedelta
 
 import pytz
 from odoo import api, fields, models
@@ -36,7 +36,7 @@ class RapidCar(models.Model):
 
     evidence = fields.One2many("rapidusa.images", "record", string="Evidences")
 
-    route_id_rel = fields.Many2one(related="rapiddriver_id.route_id")
+    route_id_rel = fields.Many2one(compute="_compute_route_id_rel", store=True)
 
     @api.depends("millas_start", "millas_fin", "millas_total")
     def _compute_millas(self):
@@ -45,6 +45,15 @@ class RapidCar(models.Model):
                 i.millas_total = i.millas_fin - i.millas_start
             else:
                 i.millas_total = 0
+
+    @api.depends("rapiddriver_id")
+    def _compute_route_id_rel(self):
+        for i in self:
+            if i.rapiddriver_id:
+                if i.rapiddriver_id.route_id:
+                    return i.rapiddriver_id.route_id
+                else:
+                    return i.rapiddriver_id.fees_service_id
 
 
 class Dispatch(models.Model):
@@ -98,8 +107,8 @@ class RapidDriver(models.Model):
         store=True,
     )
     reason_cleaning_ids = fields.Many2many("rapidusa.reason_cleaning")
-    workers_ids = fields.One2many("rapidusa.workers", "rapid_driver_id")
-    workers_total = fields.Integer("Workers Total", compute="_compute_workers_total", store=True)
+    # workers_ids = fields.One2many("rapidusa.workers", "rapid_driver_id")
+    # workers_total = fields.Integer("Workers Total", compute="_compute_workers_total", store=True)
     location_id = fields.Many2one("rapidusa.destino")
     move_count = fields.Integer(compute="_compute_move_count", string="Account Details")
 
@@ -164,15 +173,15 @@ class RapidDriver(models.Model):
         self.cars_total = total
 
     @api.model
-    def create(self, vals):
+    def create(self, vals_list):
         # if vals['import_bol'] and vals['seq_no']:
         #     vals['transfer_id'] = vals['seq_no']
         # else:
         #     seq = self.env['ir.sequence'].next_by_code('rapid_driver') or '/'
         #     vals['transfer_id'] = seq
         seq = self.env["ir.sequence"].next_by_code("rapid_driver") or "/"
-        vals["transfer"] = seq
-        return super(RapidDriver, self).create(vals)
+        vals_list["transfer"] = seq
+        return super(RapidDriver, self).create(vals_list)
 
     def unlink(self):
         for i in self:
@@ -204,7 +213,7 @@ class RapidDriver(models.Model):
         if vals.get("acc_status"):
             if self.acc_status == "Paid" and not vals.get("acc_status") == "Paid":
                 raise ValidationError("Can not change in state Paid.")
-            if not self.acc_status == "Paid" and vals.get("acc_status") == "Paid":
+            if not (self.acc_status == "Billed") and vals.get("acc_status") == "Billed":
                 self.generate_invoice()
         res = super(RapidDriver, self).write(vals)
         return res
@@ -275,11 +284,13 @@ class RapidDriver(models.Model):
             {
                 "payment_reference": self.transfer,
                 "rapid_driver_id": self.id,
+                "dispatcher_id": self.dispatcher_id,
                 "move_type": "out_invoice",
                 "journal_id": self.env.company.id,
                 "partner_id": self.customer_id.id,
                 "invoice_date": self.cr_date,
                 "date": datetime.today(),
+                "invoice_date_due": datetime.today() + timedelta(days=31),
                 "invoice_line_ids": line_ids,
             }
         )
@@ -293,10 +304,10 @@ class RapidDriver(models.Model):
         if self.car_service_id == "drive_allocation":
             self.route_id = False
 
-    @api.depends("workers_ids")
-    def _compute_workers_total(self):
-        for i in self:
-            i.workers_total = len(i.workers_ids)
+    # @api.depends("workers_ids")
+    # def _compute_workers_total(self):
+    #     for i in self:
+    #         i.workers_total = len(i.workers_ids)
 
     @api.onchange("acc_status")
     def _change_acc_status(self):
@@ -348,7 +359,7 @@ class Workers(models.Model):
 
     employee_id = fields.Many2one("hr.employee", required=True)
     worker_role_id = fields.Many2one("rapidusa.worker_role", required=True)
-    rapid_driver_id = fields.Many2one("rapidusa.rapid_driver")
+    rapid_attendances_id = fields.Many2one("rapidusa.attendances")
 
 
 class ReasonCleaning(models.Model):
